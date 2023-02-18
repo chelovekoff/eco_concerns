@@ -17,14 +17,16 @@ headers = {'User-Agent': ua()}
 #                '-' : 'другие'}
 
 #===================================for only one word===================================:
-bad_word = 'экология'
-z = requests.get('https://stateduma.api.dekoder.org/term/ru/' + bad_word, headers = headers)
+word = 'экология'
+z = requests.get('https://stateduma.api.dekoder.org/term/ru/' + word, headers = headers)
+#----------------adapted from Nikita Kharakhnin 03.02.2022-----------------
 z1 = z.json()
 df = pd.DataFrame({'Date' : [int(i) for i in list(z1['frequencies'].keys())],
                    'count' : [z1['frequencies'][i]['count'] for i in list(z1['frequencies'].keys())],
                    'frequencies' : [z1['frequencies'][i]['freq'] for i in list(z1['frequencies'].keys())],
                   } )
 df.set_index('Date', inplace = True)
+#---------------------------end of adaptation------------------------------
 print(df.head(3))
 
 #===================================for different words===================================:
@@ -50,3 +52,4 @@ eco_df['sum'] = eco_df.sum(axis=1)
 print(eco_df.iloc[0:5,-5:])
 
 eco_df['sum'].plot()
+eco_df.to_excel("eco_duma.xlsx")
