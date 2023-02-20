@@ -37,7 +37,9 @@ print(df.head(3))
 words = ('экология', 'климат', 'климатический', 'экологическая безопасность', 'экологическая проблема', 'экологически чистый',
          'загрязнение', 'экосистема', 'окружающая среда', 'биоресурсы', 'озоновый', 'вырубка лес', 'отходы',
          'мусор', 'мусорный', 'мусороперерабатывающий', 'мусоросжигательный', 'мусоропереработка', 'свалка', 'техногенный',
-         'киотский', 'радиоактивный', 'шиес', 'парниковый', 'примесь', 'ТБО', 'парижское соглашение', 'водоохранный', 'сточная вода')
+         'киотский', 'радиоактивный', 'шиес', 'парниковый', 'примесь', 'ТБО', 'парижское соглашение', 'водоохранный', 'сточная вода'
+         'лесной пожар', 'питьевая вода', 'радиация', 'чернобыль', 'фукусим', 'ядерный отходы'
+         )
 
 eco_df = pd.DataFrame({'Date' : [int(i) for i in list(z1['frequencies'].keys())]})
 eco_df.set_index('Date', inplace = True)
@@ -63,6 +65,9 @@ plt.bar(x = eco_df.index, height=eco_df['total'])
 plt.title('Total number of environmental concern')
 plt.ylabel('mentions')
 plt.xticks(np.arange(1994, 2022, 1))
+plt.axvline(2004, color='pink', linestyle='--', lw=2, label='The Kyoto Protocol Ratification')
+plt.axvline(2018, color='lightblue', linestyle='--', lw=2, label='The Beginning of Shiyes Protests')
+plt.legend(loc='upper left')
 plt.show()
 
 #-----------------The plot for the word map of environmental concerns, 2014-2021:
@@ -75,7 +80,7 @@ for el in eco_sum.index:
   eco_sum = eco_sum.rename(index={el: new_word})
 
 text = eco_sum.to_string(header=None)
-wordcloud = WordCloud().generate(str(text))
+wordcloud = WordCloud(width=1600, height=800).generate(str(text))
 plt.figure(figsize=(15,10))
 plt.imshow(wordcloud)
 plt.axis("off")
